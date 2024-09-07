@@ -9,16 +9,15 @@ import SelectInput from "@/Components/SelectInput";
 
 export default function Create({ auth }) {
   const { data, setData, post, errors, reset } = useForm({
-    image: "",
     name: "",
-    status: "",
-    description: "",
-    due_date: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    post(route("project.store"));
+    post(route("user.store"));
     console.log(data);
   };
   return (
@@ -27,12 +26,12 @@ export default function Create({ auth }) {
       header={
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Create new project
+            Create new user
           </h2>
         </div>
       }
     >
-      <Head title="Projects" />
+      <Head title="Users" />
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -42,26 +41,11 @@ export default function Create({ auth }) {
                 onSubmit={onSubmit}
                 className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
               >
-                {/* project image */}
-                <div>
-                  <InputLabel
-                    htmlFor="project_image_path"
-                    value="Project image"
-                  />
-                  <TextInput
-                    id="project_image_path"
-                    type="file"
-                    name="image"
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData("image", e.target.files[0])}
-                  />
-                  <InputError message={errors.image} className="mt-2" />
-                </div>
-                {/* project name */}
+                {/* user name */}
                 <div className="mt-4">
-                  <InputLabel htmlFor="project_name" value="Project name" />
+                  <InputLabel htmlFor="user_name" value="User name" />
                   <TextInput
-                    id="project_name"
+                    id="user_name"
                     type="text"
                     name="name"
                     value={data.name}
@@ -71,29 +55,26 @@ export default function Create({ auth }) {
                   />
                   <InputError message={errors.name} className="mt-2" />
                 </div>
-                {/* project description */}
+                {/* user email */}
                 <div className="mt-4">
-                  <InputLabel
-                    htmlFor="project_description"
-                    value="Project description"
-                  />
-                  <TextAreaInput
-                    id="project_description"
-                    name="description"
-                    value={data.description}
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData("description", e.target.value)}
-                  />
-                  <InputError message={errors.description} className="mt-2" />
-                </div>
-                {/* project due date */}
-                <div className="mt-4">
-                  <InputLabel
-                    htmlFor="project_due_date"
-                    value="Project DeadLine"
-                  />
+                  <InputLabel htmlFor="user_email" value="User email" />
                   <TextInput
-                    id="project_due_date"
+                    id="user_email"
+                    type="text"
+                    name="email"
+                    value={data.email}
+                    isFocused={true}
+                    className="mt-1 block w-full"
+                    onChange={(e) => setData("email", e.target.value)}
+                  />
+                  <InputError message={errors.name} className="mt-2" />
+                </div>
+              
+                {/* user due date */}
+                <div className="mt-4">
+                  <InputLabel htmlFor="user_due_date" value="User DeadLine" />
+                  <TextInput
+                    id="user_due_date"
                     type="date"
                     name="due_date"
                     value={data.due_date}
@@ -102,28 +83,10 @@ export default function Create({ auth }) {
                   />
                   <InputError message={errors.due_date} className="mt-2" />
                 </div>
-                {/* project status */}
-                <div className="mt-4">
-                  <InputLabel htmlFor="project_status" value="Project status" />
-                  <SelectInput
-                    id="project_status"
-                    name="status"
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData("status", e.target.value)}
-                  >
-                    <option value="">Select Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                  </SelectInput>
-                  <InputError
-                    message={errors.project_status}
-                    className="mt-2"
-                  />
-                </div>
+                >
                 <div className="mt-4 text-right">
                   <Link
-                    href={route("project.index")}
+                    href={route("user.index")}
                     className="bg-gray-100 py-1 px-3 text-gray-800 rounded shadow transition-all hover:bg-gray-200 mr-2 "
                   >
                     Cancel

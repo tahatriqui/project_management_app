@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -13,7 +14,25 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $query = User::query();
+        $sortFields = request("sort_field", 'created_at');
+        $sorDirection = request("sort_direction", 'desc');
+        if (request('name')) {
+            $query->where("name", "like", "%" . request('name') . "%");
+        }
+
+        if (request('email')) {
+            $query->where("email", "like", "%" . request('name') . "%");
+        }
+        
+        $users = $query->orderBy($sortFields, $sorDirection)
+            ->paginate(10)->onEachSide(1);
+        return inertia('User/Index', [
+            'users' => UserResource::collection($users),
+            'queryParams' => request()->query() ?: null,
+            "success" => session('success'),
+            'deleted' => session('deleted')
+        ]);
     }
 
     /**
