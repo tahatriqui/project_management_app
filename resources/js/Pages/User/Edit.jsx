@@ -42,11 +42,7 @@ export default function Create({ auth, user }) {
               onSubmit={onSubmit}
               className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
             >
-              {user.image_path && (
-                <div className="mb-4">
-                  <img src={user.image_path} className="w-64" />
-                </div>
-              )}
+              
               <div>
                 <InputLabel htmlFor="user_image_path" value="User Image" />
                 <TextInput

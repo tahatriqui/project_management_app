@@ -139,7 +139,7 @@ export default function Index({
                       </th>
                       <th className="px-3 py-2">
                         <TextInput
-                          defaultValue={queryParams.name}
+                          defaultValue={queryParams.email}
                           className="w-full"
                           placeholder="User Email"
                           onBlur={(e) =>
