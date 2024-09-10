@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\ProjectResource;
 use App\Http\Resources\UserResource;
+use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -41,6 +44,7 @@ class UserController extends Controller
      */
     public function create()
     {
+
         return inertia("User/Create");
     }
 
@@ -50,7 +54,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $data = $request->validated();
-
+        $data['email_verified_at'] = time();
         $data['password'] = bcrypt($data['password']);
 
         User::create($data);
@@ -70,7 +74,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+
+        return inertia('User/Edit', [
+            'user' => new UserResource($user),
+        ]);
     }
 
     /**
@@ -78,7 +85,18 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+
+        $data['updated_by'] = Auth::id();
+
+        $password = $data['password'];
+        if ($password) {
+            $data['password'] = bcrypt($password);
+        } else {
+            unset($data['password']);
+        }
+        $user->update($data);
+        return to_route('user.index')->with('success', 'user ' . $user->name . ' was updated');
     }
 
     /**
@@ -86,6 +104,13 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $name = $user->name;
+        $user->delete();
+
+        if ($user->image_path) {
+            Storage::disk("public")->deleteDirectory(dirname($user->image_path));
+        }
+
+        return to_route('user.index')->with('deleted', 'User ' . $name . ' was deleted');
     }
 }

@@ -9,7 +9,13 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 
-export default function Index({ auth, projects, queryParams = null, success, deleted}) {
+export default function Index({
+  auth,
+  projects,
+  queryParams = null,
+  success,
+  deleted,
+}) {
   queryParams = queryParams || {};
   const searchFieldChange = (name, value) => {
     if (value) {
@@ -40,11 +46,11 @@ export default function Index({ auth, projects, queryParams = null, success, del
   };
 
   const deleteProject = (project) => {
-    if (!window.confirm('are you sure u want to delete the project?')) {
+    if (!window.confirm("are you sure u want to delete the project?")) {
       return;
     }
-    router.delete(route('project.destroy',project.id))
-  }
+    router.delete(route("project.destroy", project.id));
+  };
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -70,11 +76,13 @@ export default function Index({ auth, projects, queryParams = null, success, del
             <div className="bg-emerald-500 py-2 px-4 text-white rounded mb-4">
               {success}
             </div>
-          ) : deleted? (
+          ) : deleted ? (
             <div className="bg-red-500 py-2 px-4 text-white rounded mb-4">
               {deleted}
             </div>
-          ):''}
+          ) : (
+            ""
+          )}
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <div className="overflow-auto">

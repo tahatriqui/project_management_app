@@ -94,23 +94,6 @@ export default function Create({ auth }) {
                   />
                   <InputError message={errors.password_confirmation} className="mt-2" />
                 </div>
-
-
-
-                {/* user due date */}
-                <div className="mt-4">
-                  <InputLabel htmlFor="user_due_date" value="User DeadLine" />
-                  <TextInput
-                    id="user_due_date"
-                    type="date"
-                    name="due_date"
-                    value={data.due_date}
-                    className="mt-1 block w-full"
-                    onChange={(e) => setData("due_date", e.target.value)}
-                  />
-                  <InputError message={errors.due_date} className="mt-2" />
-                </div>
-
                 <div className="mt-4 text-right">
                   <Link
                     href={route("user.index")}
